@@ -1,0 +1,22 @@
+[dashboard]
+title = Fuel Inbox
+description = Fuel Review Inbox
+foreach = (project:^stackforge/fuel-.*) status:open NOT label:Workflow<=-1 NOT label:Code-Review<=-2
+
+[section "My Patches Requiring Attention"]
+query = owner:self (label:Verified-1 OR label:Code-Review<=-1 OR label:Workflow<=-1)
+
+[section "Patches To Be Reviewed"]
+query = (status:open NOT label:Workflow>=1 NOT label:Workflow<=-1 NOT label:Verified<=-1 NOT owner:self project:stackforge/fuel-library NOT label:Code-Review<=-1 NOT label:Code-Review>=2) or reviewer:self limit:50
+
+[section "Patches On Merge Edge"]
+query = status:open NOT label:Workflow<=-1 NOT label:Verified<=-1 NOT owner:self project:stackforge/fuel-library label:Code-Review>=2 limit:50
+
+[section "5 Days Without Feedback"]
+query = NOT label:Workflow>=1 NOT label:Workflow<=-1 NOT label:Verified<=-1 NOT owner:self project:stackforge/fuel-library NOT label:Code-Review<=2 age:5d
+
+[section "Fuel Specs"]
+query = NOT label:Workflow>=1 NOT owner:self project:stackforge/fuel-specs
+
+[section "Other"]
+query = NOT label:Verified<=-1 NOT owner:self NOT project:stackforge/fuel-specs label:Code-Review-1 limit:20
